@@ -44,6 +44,7 @@ class Feedback extends Component{
 
     render(){
         const {visible, bad, good, neutral} = this.state;
+        const positivePercentage = `${Math.round((good/(good + bad)) * 100).toFixed(0)}`
         return(
             <>
             <Section title="Please leave feedback"></Section>
@@ -63,7 +64,7 @@ class Feedback extends Component{
             neutral={neutral} 
             bad={bad} 
             total={`${good + neutral + bad}`} 
-            positivePercentage={`${Math.round((good/(good + bad)) * 100).toFixed(0)}`}>
+            positivePercentage={positivePercentage}>
             </Statistics> 
             }
             
