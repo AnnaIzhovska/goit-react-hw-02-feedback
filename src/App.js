@@ -1,7 +1,8 @@
-import React, { Component } from'react'
+import React, { Component } from 'react'
+import Container from './components/Container'
 import Statistics from './components/Statistics';
 import Section from './components/Section';
-import FeedbackOptions from './components/Feedback/FeedbackOptions';
+import FeedbackOptions from './components/FeedbackOptions';
 import Notification from './components/Notification';
 
 class App extends Component{
@@ -9,68 +10,44 @@ class App extends Component{
         good: 0,
         neutral: 0,
         bad: 0,
-        vibilde: false
-      }
+    }
+      handleIncreament = (name) => {
+    this.setState((prevState) => ({
+      [name]: prevState[name] + 1,
+    }));
+      };
+     countTotalFeedback = () =>
+    this.state.good + this.state.neutral + this.state.bad;
 
-      show = () => {
-          this.setState({visible: true})
-      }
-
-      hide = () => {
-          this.setState({visible:false})
-      }
-
-      buttonGood = () => {
-        this.setState(prevState =>{
-            return {
-                good: prevState.good + 1,
-            }
-        })
-      }
-      buttonNeutral= () =>{
-         this.setState(prevState =>{
-             return {
-                 neutral: prevState.neutral + 1,
-             }
-         })
-       }
-       buttonBad = () =>{
-         this.setState(prevState =>{
-             return {
-                 bad: prevState.bad + 1,
-             }
-         })
-       }
+  countpositivePercentage = () =>
+    this.state.good
+      ? Math.round((this.state.good / this.countTotalFeedback()) * 100)
+      : 0;
 
     render(){
-        const {visible, bad, good, neutral} = this.state;
-        const positivePercentage = `${Math.round((good/(good + bad)) * 100).toFixed(0)}`
+        const {bad, good, neutral} = this.state;
         return(
-            <>
+            <Container>
             <Section title="Please leave feedback"></Section>
 
-            <FeedbackOptions 
-            onButtonGood={this.buttonGood} 
-            onButtonNeutral={this.buttonNeutral} 
-            onButtonBad={this.buttonBad}
-            onShow = {this.show}
-            />
-
-            <Section title="Statictics"></Section>
-
-            {visible &&
-            <Statistics 
-            good={good} 
-            neutral={neutral} 
-            bad={bad} 
-            total={`${good + neutral + bad}`} 
-            positivePercentage={positivePercentage}>
-            </Statistics> 
-            }
-            
-            {!visible &&
-            <Notification message="No feedback given"></Notification>}
-        </>
+            <FeedbackOptions
+            options={Object.keys(this.state)}
+            onLeaveFeedback={this.handleIncreament}
+                />
+                
+            <Section title="Statictics"/>
+                {this.countTotalFeedback() ? (
+                        <Statistics
+                            good={good}
+                            neutral={neutral}
+                            bad={bad}
+                            total={this.countTotalFeedback()}
+                            positivePercentage={this.countpositivePercentage()}>
+                        </Statistics>
+                 
+                ) : (
+                    <Notification message="No feedback given"></Notification>)}
+            </Container>
         )
     }
 }

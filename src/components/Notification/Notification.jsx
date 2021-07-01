@@ -1,4 +1,5 @@
-import {NotificationText} from'./Notification.styles';
+import PropTypes from "prop-types";
+import { NotificationText } from './Notification.styles';
 
 const Notification = ({message}) =>{
     return(
@@ -7,5 +8,9 @@ const Notification = ({message}) =>{
         </>
     )
 }
+
+Notification.propTypes = {
+  message: PropTypes.string.isRequired,
+};
 
 export default Notification;
