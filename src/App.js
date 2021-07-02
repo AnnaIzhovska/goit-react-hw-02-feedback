@@ -11,13 +11,13 @@ class App extends Component{
         neutral: 0,
         bad: 0,
     }
-      handleIncreament = (name) => {
-    this.setState((prevState) => ({
+  handleIncreament = (name) => {
+      this.setState((prevState) => ({
       [name]: prevState[name] + 1,
     }));
       };
-     countTotalFeedback = () =>
-    this.state.good + this.state.neutral + this.state.bad;
+  countTotalFeedback = () =>
+     this.state.good + this.state.neutral + this.state.bad;
 
   countpositivePercentage = () =>
     this.state.good
@@ -37,13 +37,13 @@ class App extends Component{
                 
             <Section title="Statictics"/>
                 {this.countTotalFeedback() ? (
-                        <Statistics
-                            good={good}
-                            neutral={neutral}
-                            bad={bad}
-                            total={this.countTotalFeedback()}
-                            positivePercentage={this.countpositivePercentage()}>
-                        </Statistics>
+                    <Statistics
+                      good={good}
+                      neutral={neutral}
+                      bad={bad}
+                      total={this.countTotalFeedback()}
+                      positivePercentage={this.countpositivePercentage()}>
+                    </Statistics>
                  
                 ) : (
                     <Notification message="No feedback given"></Notification>)}
